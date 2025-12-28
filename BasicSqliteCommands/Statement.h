@@ -34,4 +34,22 @@ private:
     sqlite3_stmt* stmt_{ nullptr };
 };
 
+// ============================================================
+// Template specializations MUST be in the header
+// ============================================================
+
+// ---- int ----
+template<>
+inline int Statement::column<int>(int index) const
+{
+    return sqlite3_column_int(stmt_, index);
+}
+
+// ---- std::string ----
+template<>
+inline std::string Statement::column<std::string>(int index) const
+{
+    const unsigned char* text = sqlite3_column_text(stmt_, index);
+    return text ? reinterpret_cast<const char*>(text) : "";
+}
 
