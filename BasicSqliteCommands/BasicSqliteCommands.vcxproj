@@ -128,7 +128,6 @@
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Statement.cpp" />
-    <ClCompile Include="UserRepository.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\sqlite3_lib\sqlite3_lib.vcxproj">
@@ -138,8 +137,6 @@
   <ItemGroup>
     <ClInclude Include="Database.h" />
     <ClInclude Include="Statement.h" />
-    <ClInclude Include="User.h" />
-    <ClInclude Include="UserRepository.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,45 +1,103 @@
 #include "Statement.h"
-
 #include <stdexcept>
 
+// ------------------------------------------------------------
+// Constructor
+// ------------------------------------------------------------
 Statement::Statement(sqlite3* db, const std::string& sql)
 {
-    if (
-        sqlite3_prepare_v2(
-            db,                 // Base de datos abierta (sqlite3*)
-            // sobre la que se va a preparar el SQL
-
-            sql.c_str(),        // Texto SQL en formato C (char*)
-            // Ejemplo:
-            // "INSERT INTO users (name, age) VALUES (?, ?);"
-
-            -1,                 // Longitud del SQL en bytes:
-            //  -1 significa que SQLite calculará la longitud
-            //  usando strlen(), esperando un '\0' al final
-
-            &stmt_,             // Puntero de salida:
-            //  SQLite inicializa aquí el sqlite3_stmt*
-            //  que representa el statement preparado
-
-            nullptr             // Puntero al resto del SQL no procesado:
-                               //  se usa solo cuando pasas múltiples sentencias
-                               //  en un mismo string (no es nuestro caso)
-        )
-        != SQLITE_OK
-        )
+    if (sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt_, nullptr) != SQLITE_OK)
     {
-        throw std::runtime_error("Failed to prepare statement");
+        throw std::runtime_error(sqlite3_errmsg(db));
     }
 }
 
-
+// ------------------------------------------------------------
+// Destructor
+// ------------------------------------------------------------
 Statement::~Statement()
 {
-    sqlite3_finalize(stmt_);
+    if (stmt_)
+        sqlite3_finalize(stmt_);
 }
 
-sqlite3_stmt* Statement::get() const
+// ------------------------------------------------------------
+// Move semantics
+// ------------------------------------------------------------
+Statement::Statement(Statement&& other) noexcept
+    : stmt_(other.stmt_)
 {
-    return stmt_;
+    other.stmt_ = nullptr;
 }
 
+Statement& Statement::operator=(Statement&& other) noexcept
+{
+    if (this != &other)
+    {
+        sqlite3_finalize(stmt_);
+        stmt_ = other.stmt_;
+        other.stmt_ = nullptr;
+    }
+    return *this;
+}
+
+// ------------------------------------------------------------
+// Ejecución
+// ------------------------------------------------------------
+bool Statement::step()
+{
+    return sqlite3_step(stmt_) == SQLITE_ROW;
+}
+
+void Statement::execute()
+{
+    if (sqlite3_step(stmt_) != SQLITE_DONE)
+    {
+        throw std::runtime_error("Statement execution failed");
+    }
+}
+
+void Statement::reset()
+{
+    sqlite3_reset(stmt_);
+    sqlite3_clear_bindings(stmt_);
+}
+
+// ------------------------------------------------------------
+// Bind
+// ------------------------------------------------------------
+void Statement::bind(int index, int value)
+{
+    if (sqlite3_bind_int(stmt_, index, value) != SQLITE_OK)
+    {
+        throw std::runtime_error("Bind int failed");
+    }
+}
+
+void Statement::bind(int index, const std::string& value)
+{
+    if (sqlite3_bind_text(
+        stmt_,
+        index,
+        value.c_str(),
+        -1,
+        SQLITE_TRANSIENT) != SQLITE_OK)
+    {
+        throw std::runtime_error("Bind text failed");
+    }
+}
+
+// -------- int --------
+template<>
+inline int Statement::column<int>(int index) const
+{
+    return sqlite3_column_int(stmt_, index);
+}
+
+// -------- std::string --------
+template<>
+inline std::string Statement::column<std::string>(int index) const
+{
+    const unsigned char* text = sqlite3_column_text(stmt_, index);
+    return text ? reinterpret_cast<const char*>(text) : "";
+}
