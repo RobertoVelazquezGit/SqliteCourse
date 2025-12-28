@@ -4,6 +4,7 @@
 #include "Teacher.h"
 
 #include <vector>
+#include <string>
 
 class TeacherRepository
 {
@@ -12,6 +13,7 @@ public:
 
     void insert(const Teacher& teacher);
     std::vector<Teacher> getAll();
+    std::vector<std::string> getNames();
 
 private:
     Database& db_;

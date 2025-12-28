@@ -85,6 +85,23 @@ int main()
                 << t.course << " | "
                 << t.age << "\n";
         }
+
+        // Read students names
+        auto studentNames = studentRepo.getNames();
+        std::cout << "\nSTUDENT NAMES\n";
+        for (const auto& name : studentNames)
+        {
+            std::cout << name << "\n";
+        }
+
+        // Read teachers names
+        auto teacherNames = teacherRepo.getNames();
+        std::cout << "\nTEACHER NAMES\n";
+        for (const auto& name : teacherNames)
+        {
+            std::cout << name << "\n";
+        }
+
     }
     catch (const std::exception& ex)
     {

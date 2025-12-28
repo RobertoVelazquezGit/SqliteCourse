@@ -46,3 +46,20 @@ std::vector<Student> StudentRepository::getAll()
     return students;
 }
 
+std::vector<std::string> StudentRepository::getNames()
+{
+    static const std::string sql =
+        "SELECT name FROM students;";
+
+    Statement stmt(db_.get(), sql);
+    std::vector<std::string> names;
+
+    while (stmt.step())
+    {
+        names.push_back(
+            stmt.column<std::string>(0)
+        );
+    }
+
+    return names;
+}
