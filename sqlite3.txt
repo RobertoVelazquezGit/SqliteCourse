@@ -1,0 +1,37 @@
+SQLITE_API int sqlite3_open(
+  const char *zFilename,
+  sqlite3 **ppDb
+)
+Create data base
+
+SQLITE_API int sqlite3_exec(
+  sqlite3*,                                  /* An open database */
+  const char *sql,                           /* SQL to be evaluated */
+  int (*callback)(void*,int,char**,char**),  /* Callback function */
+  void *,                                    /* 1st argument to callback */
+  char **errmsg                              /* Error msg written here */
+);
+Create table
+
+SQLITE_API int sqlite3_bind_text(
+  sqlite3_stmt *pStmt,
+  int i,
+  const char *zData,
+  int nData,
+  void (*xDel)(void*)
+)
+Before insert text field
+
+SQLITE_API int sqlite3_bind_int(sqlite3_stmt *p, int i, int iValue)
+Before insert int field
+
+SQLITE_API int sqlite3_step(sqlite3_stmt *pStmt)
+Insert a row sqlite3_step(stmt.get()) != SQLITE_DONE
+Query a row sqlite3_step(stmt.get()) == SQLITE_ROW
+
+SQLITE_API int sqlite3_column_int(sqlite3_stmt *pStmt, int i)
+After query row to extrac int
+
+SQLITE_API const unsigned char *sqlite3_column_text(sqlite3_stmt *pStmt, int i)
+After query row to extrac text
+

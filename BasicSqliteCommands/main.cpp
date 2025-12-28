@@ -1,58 +1,96 @@
 
-#include <iostream>
-#include <string>
-#include <stdexcept>
-
-// Clases propias
 #include "Database.h"
-#include "UserRepository.h"
-#include "User.h"
+#include "StudentRepository.h"
+#include "TeacherRepository.h"
+
+#include <iostream>
 
 int main()
 {
     try
     {
-        // 1 Abrir (o crear) la base de datos
-        Database db("users.db");
+        // ----------------------------------------------------
+        // 1. Abrir / crear base de datos
+        // ----------------------------------------------------
+        Database db("school.db");
 
-        // 2 Crear la tabla si no existe
-        const std::string createTableSql =
-            "CREATE TABLE IF NOT EXISTS users ("
-            "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-            "name TEXT NOT NULL, "
-            "age INTEGER"
-            ");";
+        // ----------------------------------------------------
+        // 2. Crear tablas (solo una vez)
+        // ----------------------------------------------------
+        db.execute(
+            "CREATE TABLE IF NOT EXISTS students ("
+            "name TEXT, "
+            "rollno INT, "
+            "dept TEXT, "
+            "course TEXT, "
+            "age INT);"
+        );
 
-        db.execute(createTableSql);
+        db.execute(
+            "CREATE TABLE IF NOT EXISTS teacher ("
+            "name TEXT, "
+            "id INT, "
+            "dept TEXT, "
+            "course TEXT, "
+            "age INT);"
+        );
 
-        // 3 Crear el repositorio
-        UserRepository repo(db);
+        // ----------------------------------------------------
+        // 3. Crear repositorios
+        // ----------------------------------------------------
+        StudentRepository studentRepo(db);
+        TeacherRepository teacherRepo(db);
 
-        // 4 INSERT (id se ignora, SQLite lo genera)
-        repo.insert({ 0, "Ana", 30 });
-        repo.insert({ 0, "Luis", 25 });
-        repo.insert({ 0, "Marta", 40 });
+        // ----------------------------------------------------
+        // 4. Insertar estudiantes
+        // ----------------------------------------------------
+        studentRepo.insert({ "arun", 100, "cse", "sql", 22 });
+        studentRepo.insert({ "ajay kumar", 101, "cse", "java", 24 });
+        studentRepo.insert({ "thor", 102, "ece", "python", 22 });
 
-        // 5 SELECT
-        auto users = repo.getAll();
+        // ----------------------------------------------------
+        // 5. Insertar profesores
+        // ----------------------------------------------------
+        teacherRepo.insert({ "super man", 200, "cse", "maths", 30 });
+        teacherRepo.insert({ "flash", 201, "ece", "physics", 40 });
 
-        // 6 Mostrar resultados
-        for (const auto& u : users)
+        // ----------------------------------------------------
+        // 6. Leer estudiantes
+        // ----------------------------------------------------
+        std::cout << "\nSTUDENTS\n";
+        auto students = studentRepo.getAll();
+
+        for (const auto& s : students)
         {
-            std::cout << u.id << " | "
-                << u.name << " | "
-                << u.age << '\n';
+            std::cout
+                << s.name << " | "
+                << s.rollno << " | "
+                << s.dept << " | "
+                << s.course << " | "
+                << s.age << "\n";
+        }
+
+        // ----------------------------------------------------
+        // 7. Leer profesores
+        // ----------------------------------------------------
+        std::cout << "\nTEACHERS\n";
+        auto teachers = teacherRepo.getAll();
+
+        for (const auto& t : teachers)
+        {
+            std::cout
+                << t.name << " | "
+                << t.id << " | "
+                << t.dept << " | "
+                << t.course << " | "
+                << t.age << "\n";
         }
     }
     catch (const std::exception& ex)
     {
-        std::cerr << "Error: " << ex.what() << '\n';
+        std::cerr << "ERROR: " << ex.what() << "\n";
         return 1;
     }
 
     return 0;
 }
-
-// sqlite3_lib project must be added as reference to this one project 
-
-
