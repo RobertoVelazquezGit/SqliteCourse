@@ -12,7 +12,7 @@ int main()
 		// ----------------------------------------------------
 		// 1. Abrir / crear base de datos
 		// ----------------------------------------------------
-		Database db("school.db");
+		Database db("school.db", Database::Reset::Yes);
 
 		// ----------------------------------------------------
 		// 2. Crear tablas (solo una vez)

@@ -1,9 +1,16 @@
+
+#include <filesystem>
+#include <stdexcept>
 #include "Database.h"
 
-#include <stdexcept>
-
-Database::Database(const std::string& filename)
+Database::Database(const std::string& filename, Reset reset)
 {
+    namespace fs = std::filesystem;  // Always in local scope
+    if (reset == Reset::Yes && fs::exists(filename))
+    {
+        fs::remove(filename);
+    }
+
     if (sqlite3_open(filename.c_str(), &db_) != SQLITE_OK)
     {
         throw std::runtime_error("Cannot open database");

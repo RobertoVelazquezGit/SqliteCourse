@@ -6,7 +6,8 @@
 class Database
 {
 public:
-    explicit Database(const std::string& filename);
+    enum class Reset { No, Yes };
+    explicit Database(const std::string& filename, Reset reset = Reset::No);   
     ~Database();
 
     sqlite3* get() const;
