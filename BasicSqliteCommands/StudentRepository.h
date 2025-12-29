@@ -14,6 +14,7 @@ public:
     void insert(const Student& student);
     std::vector<Student> getAll();
     std::vector<std::string> getNames();
+    std::vector<std::string> getNamesOlderThan(int age);
 
 private:
     Database& db_;

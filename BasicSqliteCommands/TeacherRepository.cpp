@@ -1,4 +1,4 @@
-#include "TeacherRepository.h"
+﻿#include "TeacherRepository.h"
 #include "Statement.h"
 
 TeacherRepository::TeacherRepository(Database& db)
@@ -62,4 +62,47 @@ std::vector<std::string> TeacherRepository::getNames()
     }
 
     return names;
+}
+
+std::vector<std::string> TeacherRepository::getDistinctDepartments()
+{
+    static const std::string sql =
+        "SELECT DISTINCT dept FROM teacher;";
+
+    Statement stmt(db_.get(), sql);
+
+    std::vector<std::string> departments;
+
+    while (stmt.step())
+    {
+        departments.push_back(
+            stmt.column<std::string>(0)
+        );
+    }
+
+    return departments;
+}
+
+std::vector<int>
+TeacherRepository::getIdsByDepartment(const std::string& dept)
+{
+    static const std::string sql =
+        "SELECT id FROM teacher WHERE dept = ?;";
+
+    Statement stmt(db_.get(), sql);
+
+    // 1 → primer ?
+    stmt.bind(1, dept);
+
+    std::vector<int> ids;
+
+    while (stmt.step())
+    {
+        // 0 → primera columna del SELECT (id)
+        ids.push_back(
+            stmt.column<int>(0)
+        );
+    }
+
+    return ids;
 }

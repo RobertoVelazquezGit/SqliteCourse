@@ -30,8 +30,8 @@ Insert a row sqlite3_step(stmt.get()) != SQLITE_DONE
 Query a row sqlite3_step(stmt.get()) == SQLITE_ROW
 
 SQLITE_API int sqlite3_column_int(sqlite3_stmt *pStmt, int i)
-After query row to extrac int
+After query row to extrac int, i is the index in the current query, see TeacherRepository::getDistinctDepartments()
 
 SQLITE_API const unsigned char *sqlite3_column_text(sqlite3_stmt *pStmt, int i)
-After query row to extrac text
+After query row to extrac text, i is the index in the current query, see TeacherRepository::getDistinctDepartments()
 

@@ -14,6 +14,8 @@ public:
     void insert(const Teacher& teacher);
     std::vector<Teacher> getAll();
     std::vector<std::string> getNames();
+    std::vector<std::string> getDistinctDepartments();
+    std::vector<int> getIdsByDepartment(const std::string& dept);
 
 private:
     Database& db_;
