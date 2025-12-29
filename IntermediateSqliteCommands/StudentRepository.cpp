@@ -150,3 +150,57 @@ StudentRepository::getNotInDepartment(const std::string& dept)
 
 	return students;
 }
+
+std::optional<std::string>
+StudentRepository::getAnyNameOlderThan(int age)
+{
+	static const std::string sql =
+		"SELECT name FROM students "
+		"WHERE age > ? "
+		"LIMIT 1;";
+
+	Statement stmt(db_.get(), sql);
+
+	// ─────────────────────────────────────────────
+	// BIND DEL PARÁMETRO
+	// ─────────────────────────────────────────────
+	stmt.bind(1, age);
+	/*
+		El '1' se refiere al PRIMER parámetro '?' del SQL.
+
+		Regla importante:
+		- Los parámetros SQL ('?') se numeran desde 1
+		- NO desde 0
+
+		En esta consulta solo hay un '?':
+			WHERE age > ?
+
+		Por tanto:
+			1 → ese único '?'
+	*/
+
+	// Ejecutamos la sentencia
+	if (stmt.step())
+	{
+		// ─────────────────────────────────────────
+		// LECTURA DE LA COLUMNA
+		// ─────────────────────────────────────────
+		return stmt.column<std::string>(0);
+		/*
+			El '0' se refiere a la PRIMERA columna del RESULT SET.
+
+			Regla importante:
+			- Las columnas del resultado se numeran desde 0
+			- Dependen SOLO del orden del SELECT
+
+			En esta consulta:
+				SELECT name FROM students ...
+
+			El result set tiene una sola columna:
+				índice 0 → name
+		*/
+	}
+
+	// Si no hubo ninguna fila
+	return std::nullopt;
+}

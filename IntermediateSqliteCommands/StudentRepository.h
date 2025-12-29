@@ -5,6 +5,7 @@
 
 #include <vector>
 #include <string>
+#include <optional>
 
 class StudentRepository
 {
@@ -18,6 +19,7 @@ public:
     std::vector<Student> getOlderThanInDepartment(int age,
         const std::string& dept);
     std::vector<Student> getNotInDepartment(const std::string& dept);
+    std::optional<std::string> getAnyNameOlderThan(int age);
 
 private:
     Database& db_;
