@@ -106,3 +106,39 @@ TeacherRepository::getIdsByDepartment(const std::string& dept)
 
     return ids;
 }
+
+std::vector<Teacher>
+TeacherRepository::getOlderThanOrInDepartment(
+    int age,
+    const std::string& dept)
+{
+    static const std::string sql =
+        "SELECT * FROM teacher "
+        "WHERE age > ? OR dept = ?;";
+
+    Statement stmt(db_.get(), sql);
+
+    // 1 → age > ?
+    stmt.bind(1, age);
+
+    // 2 → dept = ?
+    stmt.bind(2, dept);
+
+    std::vector<Teacher> teachers;
+
+    while (stmt.step())
+    {
+        Teacher t;
+
+        // SELECT * → orden del CREATE TABLE
+        t.name = stmt.column<std::string>(0);
+        t.id = stmt.column<int>(1);
+        t.dept = stmt.column<std::string>(2);
+        t.course = stmt.column<std::string>(3);
+        t.age = stmt.column<int>(4);
+
+        teachers.push_back(std::move(t));
+    }
+
+    return teachers;
+}

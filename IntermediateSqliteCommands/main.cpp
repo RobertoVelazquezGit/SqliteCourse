@@ -146,6 +146,34 @@ int main()
 		}
 
 
+		// Students older than 22 or in cse department
+		teachers.clear();
+		teachers = teacherRepo.getOlderThanOrInDepartment(30, "cse");
+		std::cout << "\nTEACHERS OLDER THAN n OR IN xxx DEPT\n";
+		for (const auto& t : teachers)
+		{
+			std::cout
+				<< t.name << " "
+				<< t.id << " "
+				<< t.dept << " "
+				<< t.course << " "
+				<< t.age << '\n';
+		}
+		
+		// Students not in cse department
+		students.clear();
+		students = studentRepo.getNotInDepartment("cse");
+		std::cout << "\nSTUDENTS NOT IN XXX DEPT\n";
+		for (const auto& s : students)
+		{
+			std::cout
+				<< s.name << " "
+				<< s.rollno << " "
+				<< s.dept << " "
+				<< s.course << " "
+				<< s.age << '\n';
+		}
+
 	}
 	catch (const std::exception& ex)
 	{

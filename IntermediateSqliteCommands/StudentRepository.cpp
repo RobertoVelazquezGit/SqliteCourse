@@ -119,3 +119,34 @@ StudentRepository::getOlderThanInDepartment(int age,
 
 	return students;
 }
+
+std::vector<Student>
+StudentRepository::getNotInDepartment(const std::string& dept)
+{
+	static const std::string sql =
+		"SELECT * FROM students "
+		"WHERE NOT dept = ?;";
+
+	Statement stmt(db_.get(), sql);
+
+	// 1 → dept
+	stmt.bind(1, dept);
+
+	std::vector<Student> students;
+
+	while (stmt.step())
+	{
+		Student s;
+
+		// SELECT * → orden del CREATE TABLE
+		s.name = stmt.column<std::string>(0);
+		s.rollno = stmt.column<int>(1);
+		s.dept = stmt.column<std::string>(2);
+		s.course = stmt.column<std::string>(3);
+		s.age = stmt.column<int>(4);
+
+		students.push_back(std::move(s));
+	}
+
+	return students;
+}

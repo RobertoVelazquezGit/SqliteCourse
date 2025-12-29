@@ -17,6 +17,7 @@ public:
     std::vector<std::string> getNamesOlderThan(int age);
     std::vector<Student> getOlderThanInDepartment(int age,
         const std::string& dept);
+    std::vector<Student> getNotInDepartment(const std::string& dept);
 
 private:
     Database& db_;

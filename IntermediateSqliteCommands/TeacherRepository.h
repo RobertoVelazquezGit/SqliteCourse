@@ -16,6 +16,9 @@ public:
     std::vector<std::string> getNames();
     std::vector<std::string> getDistinctDepartments();
     std::vector<int> getIdsByDepartment(const std::string& dept);
+    std::vector<Teacher> getOlderThanOrInDepartment(
+        int age,
+        const std::string& dept);
 
 private:
     Database& db_;
