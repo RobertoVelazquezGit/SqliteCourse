@@ -1,8 +1,9 @@
+﻿#include <iomanip>  // std::fixed, std::setprecision
+#include <iostream>
 #include "Database.h"
 #include "StudentRepository.h"
 #include "TeacherRepository.h"
-#include <iomanip>  // std::fixed, std::setprecision
-#include <iostream>
+#include "SchoolRepository.h"
 
 int main()
 {
@@ -12,6 +13,9 @@ int main()
 		// 1. Abrir / crear base de datos
 		// ----------------------------------------------------
 		Database db("school.db", Database::Reset::Yes);
+
+		// School repo
+		SchoolRepository schoolRepo(db);
 
 		// ----------------------------------------------------
 		// 2. Crear tablas (solo una vez)
@@ -44,8 +48,10 @@ int main()
 		// 4. Insertar estudiantes
 		// ----------------------------------------------------
 		studentRepo.insert({ "arun", 100, "cse", "sql", 22 });
+		studentRepo.insert({ "arunb", 100, "abc", "chemistry", 23 });
 		studentRepo.insert({ "ajay kumar", 101, "cse", "java", 24 });
 		studentRepo.insert({ "thor", 102, "ece", "python", 22 });
+		studentRepo.insert({ "thorb", 102, "abc", "chemistry", 23 });
 		studentRepo.insert({ "ironman", 103, "eee", "c", 27 });
 		studentRepo.insert({ "spider man", 104, "ece", "java", 29 });
 
@@ -252,14 +258,44 @@ int main()
 		}
 
 		// Maximum age with column name
-		auto result = studentRepo.getMaxAgeWithColumnName();
-		if (result)
-		{
+		if (auto res = studentRepo.getMaxAgeWithColumnName(); res) {  // c++ 17 if with initializer
 			std::cout << "\nMAX AGE OF STUDENTS WITH COLUMN NAME WITH AS\n";
-			const auto& [name, value] = *result;
+			const auto& [name, value] = *res;  // res is std::optional<std::pair<std::string, int>>
 			std::cout << name << ": " << value << "\n";
 		}
 
+		// All names from students and teachers
+		auto allnames = schoolRepo.getAllNames();
+		if (!allnames.empty()) {
+			std::cout << "\nALL UNIQUE NAMES FROM STUDENTS AND TEACHERS:\n";
+			for (const auto& name : allnames) {
+				std::cout << "- " << name << "\n";
+			}
+		}
+		else {
+			std::cout << "\nNO NAMES FOUND IN STUDENTS OR TEACHERS.\n";
+		}
+
+		// All students ordered by name ascending
+		auto studentsAsc = studentRepo.getAllOrderedByNameAsc();
+		std::cout << "\nSTUDENTS ORDERED BY NAME ASCENDENT:\n";
+		for (const auto& [name, age] : studentsAsc) {
+			std::cout << name << " - " << age << "\n";
+		}
+
+		// All students ordered by age descending
+		auto studentsByAgeDesc = studentRepo.getAllOrderedByAgeDesc();
+		std::cout << "\nSTUDENTS ORDERED BY AGE DESCENDENT:\n";
+		for (const auto& [name, age] : studentsByAgeDesc) {
+			std::cout << name << " - " << age << "\n";
+		}
+
+		// Maximum age grouped by rollno
+		auto vec_maxage = studentRepo.getMaxAgeGroupByRollno();
+		std::cout << "\nSTUDENTS MAX(age) GROUPED BY rollno:\n";
+		for (const auto& [maxAge, rollno] : vec_maxage) {
+			std::cout << "Rollno: " << rollno << " - Max age: " << maxAge << "\n";
+		}
 
 
 	}

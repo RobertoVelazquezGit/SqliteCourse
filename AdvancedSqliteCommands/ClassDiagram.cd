@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Database">
+    <Position X="0.75" Y="1.25" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="Database::Reset" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Database.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACEAQAAAAAAAEQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Database.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Statement">
+    <Position X="2.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAIAAAAAAAAAEAAADQAAgAAAEAABgAAAAAAA=</HashCode>
+      <FileName>Statement.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StudentRepository">
+    <Position X="5.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAABQAQAAAAAACAAAQQEIggBAAEAEgAoAAAA=</HashCode>
+      <FileName>StudentRepository.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TeacherRepository">
+    <Position X="7.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACRQAAAAAAAAAAAAAAAAAAQAAQAAAAoAAAA=</HashCode>
+      <FileName>TeacherRepository.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="Student">
+    <Position X="12.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAwAAAAAAAAAAAAAAECAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Student.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Teacher">
+    <Position X="14.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAwAAAAAAAAAAAAAAECAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Teacher.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

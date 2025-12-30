@@ -450,5 +450,61 @@ StudentRepository::getMaxAgeWithColumnName()
 	return std::nullopt;
 }
 
+std::vector<std::pair<std::string, int>>
+StudentRepository::getAllOrderedByNameAsc()
+{
+	static const std::string sql =
+		"SELECT name, age FROM students ORDER BY name ASC;";
 
+	Statement stmt(db_.get(), sql);
+	std::vector<std::pair<std::string, int>> result;
+
+	while (stmt.step())
+	{
+		std::string name = stmt.column<std::string>(0); // 0 → name
+		int age = stmt.column<int>(1);                  // 1 → age
+		result.emplace_back(name, age);
+	}
+
+	return result;
+}
+
+std::vector<std::pair<std::string, int>>
+StudentRepository::getAllOrderedByAgeDesc()
+{
+	static const std::string sql =
+		"SELECT name, age FROM students ORDER BY age DESC;";
+
+	Statement stmt(db_.get(), sql);
+	std::vector<std::pair<std::string, int>> result;
+
+	while (stmt.step())
+	{
+		std::string name = stmt.column<std::string>(0); // 0 → name
+		int age = stmt.column<int>(1);                  // 1 → age
+		result.emplace_back(name, age);
+	}
+
+	return result;
+}
+
+std::vector<std::pair<int, int>>
+StudentRepository::getMaxAgeGroupByRollno()
+{
+	static const std::string sql =
+		"SELECT MAX(age), rollno FROM students GROUP BY rollno;";
+	// GROUP BY generates a row per rollno
+
+	Statement stmt(db_.get(), sql);
+	std::vector<std::pair<int, int>> result;
+
+	while (stmt.step())
+	{
+		int maxAge = stmt.column<int>(0);   // 0 → MAX(age)
+		int rollno = stmt.column<int>(1);   // 1 → rollno
+		result.emplace_back(maxAge, rollno);
+	}
+
+	return result;
+}
 

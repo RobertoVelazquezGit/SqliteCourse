@@ -450,5 +450,3 @@ StudentRepository::getMaxAgeWithColumnName()
 	return std::nullopt;
 }
 
-
-

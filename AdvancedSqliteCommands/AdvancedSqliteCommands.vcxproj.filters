@@ -30,6 +30,9 @@
     <ClCompile Include="TeacherRepository.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SchoolRepository.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Database.h">
@@ -50,5 +53,11 @@
     <ClInclude Include="TeacherRepository.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SchoolRepository.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

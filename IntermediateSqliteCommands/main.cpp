@@ -204,7 +204,7 @@ int main()
 		std::vector<std::string> depts_ingiven = { "cse", "ece" };
 		auto vec_ingiven = studentRepo.getNameAndDeptIn(depts_ingiven);
 		std::cout << "\nSTUDENTS IN GIVEN DEPTS\n";
-		for (const auto& [name, dept] : vec_ingiven) {  // structured binding c++17
+		for (const auto& [name, dept] : vec_ingiven) {  // structured binding c++17, vec_ingiven is a vector of pairs
 			std::cout << name << " " << dept << "\n";
 		}
 
@@ -259,9 +259,6 @@ int main()
 			const auto& [name, value] = *result;
 			std::cout << name << ": " << value << "\n";
 		}
-
-
-
 	}
 	catch (const std::exception& ex)
 	{

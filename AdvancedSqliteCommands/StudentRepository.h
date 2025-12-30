@@ -31,6 +31,9 @@ public:
     std::optional<double> getAverageRollno();
     std::optional<double> getAgeSum();
     std::optional<std::pair<std::string, int>> getMaxAgeWithColumnName();
+    std::vector<std::pair<std::string, int>> getAllOrderedByNameAsc();
+    std::vector<std::pair<std::string, int>> getAllOrderedByAgeDesc();
+    std::vector<std::pair<int, int>> getMaxAgeGroupByRollno();
 
 private:
     Database& db_;

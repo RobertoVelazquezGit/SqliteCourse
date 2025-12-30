@@ -127,6 +127,7 @@
   <ItemGroup>
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SchoolRepository.cpp" />
     <ClCompile Include="Statement.cpp" />
     <ClCompile Include="StudentRepository.cpp" />
     <ClCompile Include="TeacherRepository.cpp" />
@@ -138,11 +139,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Database.h" />
+    <ClInclude Include="SchoolRepository.h" />
     <ClInclude Include="Statement.h" />
     <ClInclude Include="Student.h" />
     <ClInclude Include="StudentRepository.h" />
     <ClInclude Include="Teacher.h" />
     <ClInclude Include="TeacherRepository.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
