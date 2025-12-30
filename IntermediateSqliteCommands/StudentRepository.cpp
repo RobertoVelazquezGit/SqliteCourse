@@ -355,5 +355,55 @@ StudentRepository::getMaxAge()
 	return std::nullopt;
 }
 
+std::optional<int>
+StudentRepository::getNameCount()
+{
+	static const std::string sql =
+		"SELECT COUNT(name) FROM students;";
+
+	Statement stmt(db_.get(), sql);
+
+	if (stmt.step()) {
+		// Columna 0 → resultado de COUNT(name)
+		return stmt.column<int>(0);
+	}
+
+	return std::nullopt;
+}
+
+
+std::optional<double>
+StudentRepository::getAverageRollno()
+{
+	static const std::string sql =
+		"SELECT AVG(rollno) FROM students;";
+
+	Statement stmt(db_.get(), sql);
+
+	if (stmt.step()) {
+		// columna 0 → resultado de AVG(rollno)
+		return stmt.column<double>(0);
+	}
+
+	return std::nullopt;
+}
+
+std::optional<double>
+StudentRepository::getAgeSum()
+{
+	static const std::string sql =
+		"SELECT SUM(age) FROM students;";
+
+	Statement stmt(db_.get(), sql);
+
+	if (stmt.step()) {
+		// Columna 0 → resultado de SUM(age)
+		return stmt.column<double>(0);
+	}
+
+	return std::nullopt;
+}
+
+
 
 

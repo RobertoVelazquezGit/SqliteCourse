@@ -53,3 +53,11 @@ inline std::string Statement::column<std::string>(int index) const
     return text ? reinterpret_cast<const char*>(text) : "";
 }
 
+// ---- double ----
+template<>
+inline double Statement::column<double>(int index) const
+{
+    return sqlite3_column_double(stmt_, index);
+}
+
+

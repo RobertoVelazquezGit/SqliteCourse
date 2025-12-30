@@ -27,6 +27,10 @@ public:
     std::vector<std::pair<std::string, std::string>> getNameAndDeptNotIn(const std::vector<std::string>& depts);
     std::optional<int> getMinAge();
     std::optional<int> getMaxAge();
+    std::optional<int> getNameCount();
+    std::optional<double> getAverageRollno();
+    std::optional<double> getAgeSum();
+
 
 private:
     Database& db_;

@@ -1,7 +1,7 @@
 #include "Database.h"
 #include "StudentRepository.h"
 #include "TeacherRepository.h"
-
+#include <iomanip>  // std::fixed, std::setprecision
 #include <iostream>
 
 int main()
@@ -225,6 +225,30 @@ int main()
 		if (auto maxAge = studentRepo.getMaxAge()) {
 			std::cout << "\nMAX AGE FROM STUDENTS\n";
 			std::cout << "Max age: " << *maxAge << "\n";
+		}
+
+		// Count of student names
+		if (auto count = studentRepo.getNameCount()) {
+			std::cout << "\nCOUNT OF names FROM STUDENTS\n";
+			std::cout << "Student name count: " << *count << "\n";
+		}
+
+		// Average rollno of students
+		if (auto avg = studentRepo.getAverageRollno()) {
+			std::cout << "\nAVERAGE OF rollno FROM STUDENTS\n";
+			std::cout << "Average rollno: "
+				<< std::fixed << std::setprecision(1)
+				<< *avg
+				<< "\n";
+		}
+
+		// Sum of ages of students
+		if (auto sum = studentRepo.getAgeSum()) {
+			std::cout << "\nSUM OF ages FROM STUDENTS\n";
+			std::cout << "Sum of ages: "
+				<< std::fixed << std::setprecision(1)
+				<< *sum
+				<< "\n";
 		}
 
 
