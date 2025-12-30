@@ -323,4 +323,37 @@ StudentRepository::getNameAndDeptNotIn(const std::vector<std::string>& depts)
 	return result;
 }
 
+std::optional<int>
+StudentRepository::getMinAge()
+{
+	static const std::string sql =
+		"SELECT MIN(age) FROM students;";
+
+	Statement stmt(db_.get(), sql);
+
+	if (stmt.step()) {
+		// Columna 0 → resultado de MIN(age)
+		return stmt.column<int>(0);
+	}
+
+	return std::nullopt;
+}
+
+std::optional<int>
+StudentRepository::getMaxAge()
+{
+	static const std::string sql =
+		"SELECT MAX(age) FROM students;";
+
+	Statement stmt(db_.get(), sql);
+
+	if (stmt.step()) {
+		// Columna 0 → resultado de MAX(age)
+		return stmt.column<int>(0);
+	}
+
+	return std::nullopt;
+}
+
+
 

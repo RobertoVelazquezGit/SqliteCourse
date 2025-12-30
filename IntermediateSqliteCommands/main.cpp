@@ -216,6 +216,16 @@ int main()
 			std::cout << name << " " << dept << "\n";
 		}
 
+		// Minimum and maximum age of students
+		if (auto minAge = studentRepo.getMinAge()) {
+			std::cout << "\nMIN AGE FROM STUDENTS\n";
+			std::cout << "Min age: " << *minAge << "\n";
+		}
+		// Maximum age of students
+		if (auto maxAge = studentRepo.getMaxAge()) {
+			std::cout << "\nMAX AGE FROM STUDENTS\n";
+			std::cout << "Max age: " << *maxAge << "\n";
+		}
 
 
 	}

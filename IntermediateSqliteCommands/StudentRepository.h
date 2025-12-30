@@ -25,7 +25,8 @@ public:
     std::vector<std::pair<std::string, int>> getNameAndAgeNotBetween(int minAge, int maxAge);
     std::vector<std::pair<std::string, std::string>> getNameAndDeptIn(const std::vector<std::string>& depts);
     std::vector<std::pair<std::string, std::string>> getNameAndDeptNotIn(const std::vector<std::string>& depts);
-
+    std::optional<int> getMinAge();
+    std::optional<int> getMaxAge();
 
 private:
     Database& db_;
