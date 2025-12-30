@@ -204,3 +204,123 @@ StudentRepository::getAnyNameOlderThan(int age)
 	// Si no hubo ninguna fila
 	return std::nullopt;
 }
+
+std::vector<std::pair<std::string, int>>
+StudentRepository::getNameAndAgeBetween(int minAge, int maxAge)
+{
+	static const std::string sql =
+		"SELECT name, age FROM students "
+		"WHERE age BETWEEN ? AND ?;";
+
+	Statement stmt(db_.get(), sql);
+
+	// ───────────── BIND DE PARÁMETROS ─────────────
+	stmt.bind(1, minAge); // primer '?' → mínimo age
+	stmt.bind(2, maxAge); // segundo '?' → máximo age
+
+	std::vector<std::pair<std::string, int>> result;
+
+	while (stmt.step()) {
+		std::string name = stmt.column<std::string>(0); // columna 0 = name
+		int age = stmt.column<int>(1);         // columna 1 = age
+
+		result.emplace_back(name, age);
+	}
+
+	return result;
+}
+
+std::vector<std::pair<std::string, int>>
+StudentRepository::getNameAndAgeNotBetween(int minAge, int maxAge)
+{
+	static const std::string sql =
+		"SELECT name, age FROM students "
+		"WHERE age NOT BETWEEN ? AND ?;";
+
+	Statement stmt(db_.get(), sql);
+
+	// ───────────── BIND DE PARÁMETROS ─────────────
+	stmt.bind(1, minAge); // primer '?' → mínimo age
+	stmt.bind(2, maxAge); // segundo '?' → máximo age
+
+	std::vector<std::pair<std::string, int>> result;
+
+	while (stmt.step()) {
+		std::string name = stmt.column<std::string>(0); // columna 0 = name
+		int age = stmt.column<int>(1);         // columna 1 = age
+
+		result.emplace_back(name, age);
+	}
+
+	return result;
+}
+
+std::vector<std::pair<std::string, std::string>>
+StudentRepository::getNameAndDeptIn(const std::vector<std::string>& depts)
+{
+	if (depts.empty()) return {}; // nada que buscar
+
+	// Construimos los placeholders '?' dinámicamente según el tamaño del vector
+	std::string placeholders;
+	for (size_t i = 0; i < depts.size(); ++i) {
+		placeholders += (i == 0 ? "?" : ", ?");
+	}
+
+	std::string sql = "SELECT name, dept FROM students WHERE dept IN (" + placeholders + ");";
+
+	Statement stmt(db_.get(), sql);
+
+	// Bind dinámico de cada elemento del vector
+	for (size_t i = 0; i < depts.size(); ++i) {
+		stmt.bind(static_cast<int>(i + 1), depts[i]);
+		// Recordatorio: bind empieza en 1
+	}
+
+	std::vector<std::pair<std::string, std::string>> result;
+
+	while (stmt.step()) {
+		std::string name = stmt.column<std::string>(0); // columna 0 = name
+		std::string dept = stmt.column<std::string>(1); // columna 1 = dept
+		result.emplace_back(name, dept);
+	}
+
+	return result;
+}
+
+std::vector<std::pair<std::string, std::string>>
+StudentRepository::getNameAndDeptNotIn(const std::vector<std::string>& depts)
+{
+	// Si no hay departamentos a excluir, no filtramos nada
+	if (depts.empty())
+		return {};
+
+	// Construimos dinámicamente: ?, ?, ?, ...
+	std::string placeholders;
+	for (size_t i = 0; i < depts.size(); ++i) {
+		placeholders += (i == 0 ? "?" : ", ?");
+	}
+
+	std::string sql =
+		"SELECT name, dept FROM students "
+		"WHERE dept NOT IN (" + placeholders + ");";
+
+	Statement stmt(db_.get(), sql);
+
+	// Bind de cada valor del IN
+	for (size_t i = 0; i < depts.size(); ++i) {
+		stmt.bind(static_cast<int>(i + 1), depts[i]);
+		// bind empieza en 1
+	}
+
+	std::vector<std::pair<std::string, std::string>> result;
+
+	while (stmt.step()) {
+		std::string name = stmt.column<std::string>(0); // 0 → name
+		std::string dept = stmt.column<std::string>(1); // 1 → dept
+		result.emplace_back(name, dept);
+	}
+
+	return result;
+}
+
+

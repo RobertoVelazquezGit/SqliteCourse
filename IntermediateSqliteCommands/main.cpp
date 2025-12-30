@@ -1,4 +1,3 @@
-
 #include "Database.h"
 #include "StudentRepository.h"
 #include "TeacherRepository.h"
@@ -47,8 +46,8 @@ int main()
 		studentRepo.insert({ "arun", 100, "cse", "sql", 22 });
 		studentRepo.insert({ "ajay kumar", 101, "cse", "java", 24 });
 		studentRepo.insert({ "thor", 102, "ece", "python", 22 });
-		studentRepo.insert({ "ironman", 103, "ece", "c", 23 });
-		studentRepo.insert({ "spider man", 104, "ece", "java", 25 });
+		studentRepo.insert({ "ironman", 103, "eee", "c", 27 });
+		studentRepo.insert({ "spider man", 104, "ece", "java", 29 });
 
 		// ----------------------------------------------------
 		// 5. Insertar profesores
@@ -185,6 +184,38 @@ int main()
 		{
 			std::cout << "No student found\n";
 		}
+
+		// Student names and ages between 20 and 25
+		auto vec = studentRepo.getNameAndAgeBetween(20, 25);
+		std::cout << "\nSTUDENTS BETWEEN n AND m\n";
+		for (const auto& [name, age] : vec) {
+			std::cout << name << " " << age << "\n";
+		}
+
+		// Student names and ages not between 20 and 25
+		vec.clear();
+		vec = studentRepo.getNameAndAgeNotBetween(20, 25);
+		std::cout << "\nSTUDENTS NOT BETWEEN n AND m\n";
+		for (const auto& [name, age] : vec) {
+			std::cout << name << " " << age << "\n";
+		}
+
+		// Student names and departments in given departments
+		std::vector<std::string> depts_ingiven = { "cse", "ece" };
+		auto vec_ingiven = studentRepo.getNameAndDeptIn(depts_ingiven);
+		std::cout << "\nSTUDENTS IN GIVEN DEPTS\n";
+		for (const auto& [name, dept] : vec_ingiven) {  // structured binding c++17
+			std::cout << name << " " << dept << "\n";
+		}
+
+		// Student names and departments not in given departments
+		std::vector<std::string> excluded = { "cse", "ece" };
+		auto vec_excluded = studentRepo.getNameAndDeptNotIn(excluded);
+		std::cout << "\nSTUDENTS EXCLUDED FROM GIVEN DEPTS\n";
+		for (const auto& [name, dept] : vec_excluded) {
+			std::cout << name << " " << dept << "\n";
+		}
+
 
 
 	}

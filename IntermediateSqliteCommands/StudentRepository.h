@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include <optional>
+#include <utility>
 
 class StudentRepository
 {
@@ -20,6 +21,11 @@ public:
         const std::string& dept);
     std::vector<Student> getNotInDepartment(const std::string& dept);
     std::optional<std::string> getAnyNameOlderThan(int age);
+    std::vector<std::pair<std::string, int>> getNameAndAgeBetween(int minAge, int maxAge);
+    std::vector<std::pair<std::string, int>> getNameAndAgeNotBetween(int minAge, int maxAge);
+    std::vector<std::pair<std::string, std::string>> getNameAndDeptIn(const std::vector<std::string>& depts);
+    std::vector<std::pair<std::string, std::string>> getNameAndDeptNotIn(const std::vector<std::string>& depts);
+
 
 private:
     Database& db_;
