@@ -86,3 +86,9 @@ void Statement::bind(int index, const std::string& value)
         throw std::runtime_error("Bind text failed");
     }
 }
+
+// Column name
+const char* Statement::columnName(int index) const
+{
+    return sqlite3_column_name(stmt_, index);
+}

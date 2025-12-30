@@ -251,6 +251,16 @@ int main()
 				<< "\n";
 		}
 
+		// Maximum age with column name
+		auto result = studentRepo.getMaxAgeWithColumnName();
+		if (result)
+		{
+			std::cout << "\nMAX AGE OF STUDENTS WITH COLUMN NAME WITH AS\n";
+			const auto& [name, value] = *result;
+			std::cout << name << ": " << value << "\n";
+		}
+
+
 
 	}
 	catch (const std::exception& ex)

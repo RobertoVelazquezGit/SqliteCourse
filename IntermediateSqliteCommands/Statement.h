@@ -29,6 +29,8 @@ public:
     // Column
     template<typename T>
     T column(int index) const;
+	// Column name
+    const char* columnName(int index) const;
 
 private:
     sqlite3_stmt* stmt_{ nullptr };

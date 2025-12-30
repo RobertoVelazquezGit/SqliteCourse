@@ -1,4 +1,4 @@
-SQLITE_API int sqlite3_open(
+﻿SQLITE_API int sqlite3_open(
   const char *zFilename,
   sqlite3 **ppDb
 )
@@ -34,4 +34,13 @@ After query row to extrac int, i is the index in the current query, see TeacherR
 
 SQLITE_API const unsigned char *sqlite3_column_text(sqlite3_stmt *pStmt, int i)
 After query row to extrac text, i is the index in the current query, see TeacherRepository::getDistinctDepartments()
+
+0 NO se refiere a la columna age de la tabla
+0 se refiere a la primera columna del SELECT
+SELECT <col0>, <col1>, <col2>, ...
+       ↑
+       index 0
+SELECT MAX(age)
+       ↑
+       index 0
 

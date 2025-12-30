@@ -404,6 +404,51 @@ StudentRepository::getAgeSum()
 	return std::nullopt;
 }
 
+std::optional<std::pair<std::string, int>>
+StudentRepository::getMaxAgeWithColumnName()
+{
+	static const std::string sql =
+		"SELECT MAX(age) AS \"maximum age\" FROM students;";
+
+	Statement stmt(db_.get(), sql);
+
+	// Execute the statement.
+	// This query returns exactly ONE row if the table is not empty.
+	if (stmt.step())
+	{
+		/*
+			Column index explanation:
+
+			- Column indices refer to the RESULT SET,
+			  NOT to the table structure.
+
+			- Indices start at 0.
+
+			In this query:
+
+				SELECT MAX(age) AS "maximum age"
+				FROM students;
+
+			The result set contains exactly ONE column:
+
+				index 0 → MAX(age)   (aliased as "maximum age")
+
+			Therefore:
+				column 0 = the result of MAX(age)
+		*/
+
+		const char* columnName = stmt.columnName(0);
+		int maxAge = stmt.column<int>(0);
+
+		return std::make_pair(
+			columnName ? columnName : "",
+			maxAge
+		);
+	}
+
+	// No row returned (e.g. empty table)
+	return std::nullopt;
+}
 
 
 

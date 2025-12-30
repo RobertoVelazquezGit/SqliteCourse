@@ -30,7 +30,7 @@ public:
     std::optional<int> getNameCount();
     std::optional<double> getAverageRollno();
     std::optional<double> getAgeSum();
-
+    std::optional<std::pair<std::string, int>> getMaxAgeWithColumnName();
 
 private:
     Database& db_;
