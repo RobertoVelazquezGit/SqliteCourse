@@ -20,6 +20,7 @@ public:
     explicit SchoolRepository(Database& db);
     std::vector<std::string> getAllNames();
     std::vector<StudentTeacherRow> getStudentsWithTeachersByDept();
+    std::vector<StudentTeacherRow> getStudentsWithTeachersCrossJoin();
 
 private:
     Database& db_;

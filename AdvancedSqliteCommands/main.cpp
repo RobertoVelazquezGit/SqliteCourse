@@ -343,6 +343,21 @@ int main()
 		}
 
 
+		// CROSS JOIN students with teachers
+		auto rows_crossjoin = schoolRepo.getStudentsWithTeachersCrossJoin();
+		std::cout << "\nSTUDENTS × TEACHERS (CROSS JOIN):\n";
+		for (const auto& r : rows_crossjoin)
+		{
+			std::cout
+				<< "Student: " << r.studentName
+				<< " | Rollno: " << r.rollno
+				<< " | Dept: " << r.dept
+				<< " | Teacher: " << r.teacherName
+				<< " | Teacher ID: " << r.teacherId
+				<< "\n";
+		}
+
+
 	}
 	catch (const std::exception& ex)
 	{
