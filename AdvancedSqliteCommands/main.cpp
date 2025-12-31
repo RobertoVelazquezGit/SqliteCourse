@@ -50,6 +50,8 @@ int main()
 		studentRepo.insert({ "arun", 100, "cse", "sql", 22 });
 		studentRepo.insert({ "arunb", 100, "abc", "chemistry", 23 });
 		studentRepo.insert({ "ajay kumar", 101, "cse", "java", 24 });
+		studentRepo.insert({ "ajay kumar", 1010, "cse", "java", 28 });
+		studentRepo.insert({ "ajay kumarb", 1011, "cse", "chemistry", 25 });
 		studentRepo.insert({ "thor", 102, "ece", "python", 22 });
 		studentRepo.insert({ "thorb", 102, "abc", "chemistry", 23 });
 		studentRepo.insert({ "ironman", 103, "eee", "c", 27 });
@@ -295,6 +297,17 @@ int main()
 		std::cout << "\nSTUDENTS MAX(age) GROUPED BY rollno:\n";
 		for (const auto& [maxAge, rollno] : vec_maxage) {
 			std::cout << "Rollno: " << rollno << " - Max age: " << maxAge << "\n";
+		}
+
+		// Maximum age grouped by name in CSE department
+		auto vec_MaxAgeGroupedByNameInDept = studentRepo.getMaxAgeGroupedByNameInDept("cse");
+		std::cout << "\nMAX(age), name, dept (dept = cse):\n";
+		for (const auto& [maxAge, name, dept] : vec_MaxAgeGroupedByNameInDept)
+		{
+			std::cout << name
+				<< " | dept: " << dept
+				<< " | max age: " << maxAge
+				<< "\n";
 		}
 
 

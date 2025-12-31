@@ -508,3 +508,49 @@ StudentRepository::getMaxAgeGroupByRollno()
 	return result;
 }
 
+std::vector<std::tuple<int, std::string, std::string>>
+StudentRepository::getMaxAgeGroupedByNameInDept(const std::string& dept)
+{
+	static const std::string sql =
+		"SELECT MAX(age), name, dept "
+		"FROM students "
+		"WHERE dept = ? "
+		"GROUP BY name;";
+
+	Statement stmt(db_.get(), sql);
+
+	// Bind the department parameter
+	stmt.bind(1, dept);
+	/*
+		Parameter index explanation:
+
+		- SQL parameters ('?') are 1-based, not 0-based
+		- This query has only one '?':
+			  WHERE dept = ?
+		- Therefore:
+			  bind(1, dept) → binds that parameter
+	*/
+
+	std::vector<std::tuple<int, std::string, std::string>> result;
+
+	while (stmt.step())
+	{
+		/*
+			Result set column indices:
+
+			0 → MAX(age)
+			1 → name
+			2 → dept
+		*/
+
+		int maxAge = stmt.column<int>(0);
+		std::string name = stmt.column<std::string>(1);
+		std::string deptValue = stmt.column<std::string>(2);
+
+		result.emplace_back(maxAge, name, deptValue);
+	}
+
+	return result;
+}
+
+

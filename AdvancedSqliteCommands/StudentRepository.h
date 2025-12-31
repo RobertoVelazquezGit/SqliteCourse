@@ -1,12 +1,13 @@
 #pragma once
 
-#include "Database.h"
-#include "Student.h"
-
 #include <vector>
 #include <string>
 #include <optional>
 #include <utility>
+#include <tuple>
+
+#include "Database.h"
+#include "Student.h"
 
 class StudentRepository
 {
@@ -34,6 +35,8 @@ public:
     std::vector<std::pair<std::string, int>> getAllOrderedByNameAsc();
     std::vector<std::pair<std::string, int>> getAllOrderedByAgeDesc();
     std::vector<std::pair<int, int>> getMaxAgeGroupByRollno();
+    std::vector<std::tuple<int, std::string, std::string>>
+        getMaxAgeGroupedByNameInDept(const std::string& dept);
 
 private:
     Database& db_;
