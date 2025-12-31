@@ -357,6 +357,22 @@ int main()
 				<< "\n";
 		}
 
+		// Update student name by rollno
+		std::cout << "\nSET student BY rollno\n";
+		studentRepo.updateNameByRollno("spider manb", 104);
+		if (auto result = studentRepo.getNameAndRollnoByRollno(104); result)  // result is local inside if, not visible outside
+		{
+			const auto& [name, rollno] = *result;
+			std::cout << "STUDENT FOUND: " << name
+				<< " | rollno: " << rollno << "\n";
+		}
+		else
+		{
+			std::cout << "\nNO STUDENT FOUND WITH rollno\n";
+		}
+
+
+
 
 	}
 	catch (const std::exception& ex)

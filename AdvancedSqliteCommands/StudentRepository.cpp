@@ -579,3 +579,66 @@ StudentRepository::getNamesAndDeptsEndingWith(const std::string& suffix)
 
 	return result;
 }
+
+void StudentRepository::updateNameByRollno(const std::string& newName, int rollno)
+{
+	static const std::string sql =
+		"UPDATE students "
+		"SET name = ? "
+		"WHERE rollno = ?;";
+
+	Statement stmt(db_.get(), sql);
+
+	// ─────────────────────────────────────────────
+	// BIND PARAMETERS
+	// ─────────────────────────────────────────────
+
+	stmt.bind(1, newName);
+	/*
+		1 → first '?' in the SQL
+			 SET name = ?
+	*/
+
+	stmt.bind(2, rollno);
+	/*
+		2 → second '?' in the SQL
+			 WHERE rollno = ?
+	*/
+
+	// Execute the UPDATE
+	stmt.step();
+}
+
+std::optional<std::pair<std::string, int>>
+StudentRepository::getNameAndRollnoByRollno(int rollno)
+{
+	static const std::string sql =
+		"SELECT name, rollno "
+		"FROM students "
+		"WHERE rollno = ?;";
+
+	Statement stmt(db_.get(), sql);
+
+	// ─────────────────────────────────────────────
+	// Bind parameter
+	// ─────────────────────────────────────────────
+	stmt.bind(1, rollno);
+	/*
+		1 → the first (and only) '?' in the SQL
+		   WHERE rollno = ?
+	*/
+
+	// Execute
+	if (stmt.step())
+	{
+		return std::make_pair(
+			stmt.column<std::string>(0), // name
+			stmt.column<int>(1)          // rollno
+		);
+	}
+
+	// No row found
+	return std::nullopt;
+}
+
+

@@ -39,6 +39,11 @@ public:
         getMaxAgeGroupedByNameInDept(const std::string& dept);
     std::vector<std::pair<std::string, std::string>>
         getNamesAndDeptsEndingWith(const std::string& suffix);
+    void updateNameByRollno(const std::string& newName, int rollno);
+    std::optional<std::pair<std::string, int>>
+        getNameAndRollnoByRollno(int rollno);
+
+
 
 private:
     Database& db_;
