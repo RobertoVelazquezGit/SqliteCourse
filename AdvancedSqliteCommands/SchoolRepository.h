@@ -1,19 +1,25 @@
 #pragma once
 
-#include "Database.h"
-#include "Statement.h"
 #include <vector>
 #include <string>
+#include "Database.h"
+#include "Statement.h"
+
+struct StudentTeacherRow
+{
+    std::string studentName;
+    int rollno;
+    std::string dept;
+    std::string teacherName;
+    int teacherId;
+};
 
 class SchoolRepository
 {
 public:
     explicit SchoolRepository(Database& db);
-
-    // Return all unique names from students and teachers
     std::vector<std::string> getAllNames();
-
-    // Optional: other multi-table queries can go here
+    std::vector<StudentTeacherRow> getStudentsWithTeachersByDept();
 
 private:
     Database& db_;

@@ -65,6 +65,8 @@ int main()
 		teacherRepo.insert({ "batman", 202, "it", "maths", 30 });
 		teacherRepo.insert({ "ben", 203, "eee", "chemistry", 42 });
 		teacherRepo.insert({ "joker", 204, "ece", "english", 50 });
+		teacherRepo.insert({ "wasp", 205, "cse", "draw", 35 });
+		teacherRepo.insert({ "daredevil", 206, "abc", "law", 40 });
 
 		// ----------------------------------------------------
 		// 6. Leer estudiantes
@@ -307,6 +309,36 @@ int main()
 			std::cout << name
 				<< " | dept: " << dept
 				<< " | max age: " << maxAge
+				<< "\n";
+		}
+
+
+		// Get students whose name ends with "man"
+		auto students_endingman = studentRepo.getNamesAndDeptsEndingWith("man");
+		if (!students_endingman.empty())
+		{
+			std::cout << "\nSTUDENTS WITH NAMES ENDING IN 'man':\n";
+			for (const auto& [name, dept] : students_endingman)
+			{
+				std::cout << name << " | dept: " << dept << "\n";
+			}
+		}
+		else
+		{
+			std::cout << "\nNO STUDENTS FOUND WITH NAMES ENDING IN 'man'.\n";
+		}
+
+		// INNER JOIN students with teachers by department
+		auto rows = schoolRepo.getStudentsWithTeachersByDept();
+		std::cout << "\nSTUDENTS JOINED WITH TEACHERS BY DEPARTMENT:\n";
+		for (const auto& r : rows)
+		{
+			std::cout
+				<< "Student: " << r.studentName
+				<< " | Rollno: " << r.rollno
+				<< " | Dept: " << r.dept
+				<< " | Teacher: " << r.teacherName
+				<< " | Teacher ID: " << r.teacherId
 				<< "\n";
 		}
 

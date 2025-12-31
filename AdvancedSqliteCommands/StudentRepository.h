@@ -37,6 +37,8 @@ public:
     std::vector<std::pair<int, int>> getMaxAgeGroupByRollno();
     std::vector<std::tuple<int, std::string, std::string>>
         getMaxAgeGroupedByNameInDept(const std::string& dept);
+    std::vector<std::pair<std::string, std::string>>
+        getNamesAndDeptsEndingWith(const std::string& suffix);
 
 private:
     Database& db_;

@@ -553,4 +553,29 @@ StudentRepository::getMaxAgeGroupedByNameInDept(const std::string& dept)
 	return result;
 }
 
+std::vector<std::pair<std::string, std::string>>
+StudentRepository::getNamesAndDeptsEndingWith(const std::string& suffix)
+{
+	static const std::string sql =
+		"SELECT name, dept "
+		"FROM students "
+		"WHERE name LIKE ?;";
 
+	Statement stmt(db_.get(), sql);
+
+	// Build the LIKE pattern: "%suffix"
+	std::string pattern = "%" + suffix;
+	stmt.bind(1, pattern);
+
+	std::vector<std::pair<std::string, std::string>> result;
+
+	while (stmt.step())
+	{
+		result.emplace_back(
+			stmt.column<std::string>(0),
+			stmt.column<std::string>(1)
+		);
+	}
+
+	return result;
+}

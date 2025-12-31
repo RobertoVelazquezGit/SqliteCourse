@@ -31,3 +31,40 @@ std::vector<std::string> SchoolRepository::getAllNames()
     return names;
 }
 
+std::vector<StudentTeacherRow>
+SchoolRepository::getStudentsWithTeachersByDept()
+{
+    static const std::string sql =
+        "SELECT students.name, students.rollno, students.dept, "
+        "teacher.name, teacher.id "
+        "FROM students "
+        "INNER JOIN teacher "
+        "ON students.dept = teacher.dept;";
+
+    Statement stmt(db_.get(), sql);
+    std::vector<StudentTeacherRow> result;
+
+    while (stmt.step())
+    {
+        /*
+            Result set column indices:
+
+            0 → students.name
+            1 → students.rollno
+            2 → students.dept
+            3 → teacher.name
+            4 → teacher.id
+        */
+
+        StudentTeacherRow row;
+        row.studentName = stmt.column<std::string>(0);
+        row.rollno = stmt.column<int>(1);
+        row.dept = stmt.column<std::string>(2);
+        row.teacherName = stmt.column<std::string>(3);
+        row.teacherId = stmt.column<int>(4);
+
+        result.push_back(std::move(row));
+    }
+
+    return result;
+}
