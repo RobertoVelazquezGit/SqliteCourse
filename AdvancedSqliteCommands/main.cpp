@@ -7,6 +7,7 @@
 
 static void printTable(const SchoolRepository& schoolRepo, const std::string& tableName);
 static void demoUpdateWithRollback(Database& db, StudentRepository& studentRepo, SchoolRepository& schoolRepo);
+static void deleteAndDropTable(Database& db, const std::string& tableName);
 
 int main()
 {
@@ -408,6 +409,9 @@ int main()
 
 		// Demonstrate UPDATE with SAVEPOINT, ROLLBACK, COMMIT
 		demoUpdateWithRollback(db, studentRepo, schoolRepo);
+
+		// Delete all rows and drop student table
+		deleteAndDropTable(db, "student");
 	}
 	catch (const std::exception& ex)
 	{
@@ -484,4 +488,26 @@ static void demoUpdateWithRollback(Database& db, StudentRepository& studentRepo,
 	}
 }
 
+// Static helper function to delete all rows and drop a table
+static void deleteAndDropTable(Database& db, const std::string& tableName)
+{
+	try
+	{
+		// DELETE all rows from the table
+		// This empties the table but keeps its structure
+		std::string deleteSQL = "DELETE FROM " + tableName + ";";
+		db.execute(deleteSQL);
+		std::cout << "\nAll rows deleted from table '" << tableName << "'.\n";
+
+		// DROP the table
+		// This completely removes the table definition and all its data
+		std::string dropSQL = "DROP TABLE " + tableName + ";";
+		db.execute(dropSQL);
+		std::cout << "Table '" << tableName << "' has been dropped.\n";
+	}
+	catch (const std::exception& ex)
+	{
+		std::cerr << "ERROR: " << ex.what() << "\n";
+	}
+}
 
