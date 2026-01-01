@@ -44,5 +44,8 @@ SELECT MAX(age)
        ↑
        index 0
 
+Correct design
+You can not bind the name of a table
+You can indeed bind values (name, rollno, dept, etc ...)
 
 

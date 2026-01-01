@@ -391,8 +391,17 @@ int main()
 		{
 			std::cout << "- " << col << "\n";
 		}
-
-
+		// Drop
+		studentRepo.dropColumn("student", "gender");
+		std::cout << "gender COLUMN DROPPED FROM student TABLE\n";
+		// Get all column names in student table
+		columns.clear();
+		columns = schoolRepo.getColumnNames("student");
+		std::cout << "COLUMNS IN TABLE 'student':\n";
+		for (const auto& col : columns)
+		{
+			std::cout << "- " << col << "\n";
+		}
 
 
 

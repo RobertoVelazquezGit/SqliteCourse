@@ -666,4 +666,50 @@ void StudentRepository::addGenderColumn(const std::string& tableName)
 	db_.execute(sql);
 }
 
+void StudentRepository::dropColumn(
+	const std::string& tableName,
+	const std::string& columnName)
+{
+	/*
+		Table names and column names cannot be bound with '?'
+		placeholders in SQLite, so they must be injected directly
+		into the SQL string.
+	*/
+	const std::string sql =
+		"ALTER TABLE " + tableName +
+		" DROP COLUMN " + columnName + ";";
+
+	db_.execute(sql);
+}
+
+
+void StudentRepository::updateNameByRollnoAndDept(
+	const std::string& tableName,
+	const std::string& newName,
+	int rollno,
+	const std::string& dept)
+{
+	// Table name must be part of the SQL string (cannot be bound)
+	const std::string sql =
+		"UPDATE " + tableName + " "
+		"SET name = ? "
+		"WHERE rollno = ? AND dept = ?;";
+
+	Statement stmt(db_.get(), sql);
+
+	// 1 → SET name = ?
+	stmt.bind(1, newName);
+
+	// 2 → rollno = ?
+	stmt.bind(2, rollno);
+
+	// 3 → dept = ?
+	stmt.bind(3, dept);
+
+	if (stmt.step() != SQLITE_DONE)
+	{
+		throw std::runtime_error("Update failed");
+	}
+}
+
 
