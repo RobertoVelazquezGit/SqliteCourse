@@ -1,2 +1,2 @@
 # SqliteCourse
-C++ wrapper on the examples from the Udemy Sqlite course
+C++ 17 wrapper on the examples from the Udemy Sqlite course
