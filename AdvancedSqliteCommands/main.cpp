@@ -13,6 +13,16 @@ int main()
 {
 	try
 	{
+		// Configure SQLite to be fully thread-safe
+		// Serialized mode enables internal mutexes
+		// The same connection can be safely used from multiple threads
+		if (sqlite3_config(SQLITE_CONFIG_SERIALIZED) != SQLITE_OK)
+		{
+			// sqlite3_config must be called before sqlite3_initialize / sqlite3_open
+			throw std::runtime_error(
+				"SQLite configuration failed: SQLITE_CONFIG_SERIALIZED"
+			);
+		}
 		// ----------------------------------------------------
 		// 1. Abrir / crear base de datos
 		// ----------------------------------------------------
