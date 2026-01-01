@@ -1,4 +1,5 @@
-﻿#include "StudentRepository.h"
+﻿#include <stdexcept>
+#include "StudentRepository.h"
 #include "Statement.h"
 
 StudentRepository::StudentRepository(Database& db)
@@ -639,6 +640,30 @@ StudentRepository::getNameAndRollnoByRollno(int rollno)
 
 	// No row found
 	return std::nullopt;
+}
+
+void StudentRepository::renameTableToStudent()
+{
+	static const std::string sql =
+		"ALTER TABLE students RENAME TO student;";
+
+	db_.execute(sql);
+}
+
+void StudentRepository::addGenderColumn(const std::string& tableName)
+{
+	if (tableName != "student" && tableName != "students")
+	{
+		throw std::invalid_argument("Invalid table name");
+	}
+
+	// NOTE:
+	// Table names cannot be bound with '?' placeholders in SQLite.
+	// They must be part of the SQL string itself.
+	const std::string sql =
+		"ALTER TABLE " + tableName + " ADD COLUMN gender TEXT;";
+
+	db_.execute(sql);
 }
 
 

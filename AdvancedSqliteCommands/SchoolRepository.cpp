@@ -106,3 +106,80 @@ SchoolRepository::getStudentsWithTeachersCrossJoin()
 
     return result;
 }
+
+std::vector<std::string> SchoolRepository::getTableNames() const
+{
+    static const std::string sql =
+        "SELECT name "
+        "FROM sqlite_master "
+        "WHERE type = 'table';";
+    /*
+        sqlite_master is an internal SQLite system table.
+
+        It stores the schema of the database:
+        - tables
+        - indexes
+        - views
+        - triggers
+
+        Each row in sqlite_master represents a database's object.
+
+        The column 'type' tells what kind of object it is:
+            'table'   → a table
+            'index'   → an index
+            'view'    → a view
+            'trigger' → a trigger
+
+        By filtering with:
+            WHERE type = 'table'
+
+        we ensure that only user tables are returned.
+    */
+
+    Statement stmt(db_.get(), sql);
+
+    std::vector<std::string> tables;
+
+    while (stmt.step())
+    {
+        // Column index 0 corresponds to the first column
+        // in the SELECT clause: SELECT name
+        tables.push_back(stmt.column<std::string>(0));
+    }
+
+    return tables;
+}
+
+std::vector<std::string>
+SchoolRepository::getColumnNames(const std::string& tableName) const
+{
+    // PRAGMA statements cannot use bind parameters ('?'),
+    // so the table name must be injected into the SQL string.
+    const std::string sql =
+        "PRAGMA table_info(" + tableName + ");";
+    /*
+        PRAGMA table_info(tableName) returns one row per column.
+
+        The result columns are:
+        0 → cid        (column index)
+        1 → name       (column name)
+        2 → type       (declared type)
+        3 → notnull
+        4 → dflt_value
+        5 → pk
+
+        We only care about column index 1 → column name.
+    */
+
+    Statement stmt(db_.get(), sql);
+    std::vector<std::string> columns;
+
+    while (stmt.step())
+    {
+        // Column 1 → column name
+        columns.push_back(stmt.column<std::string>(1));
+    }
+
+    return columns;
+}
+

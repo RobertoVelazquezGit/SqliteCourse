@@ -21,6 +21,8 @@ public:
     std::vector<std::string> getAllNames();
     std::vector<StudentTeacherRow> getStudentsWithTeachersByDept();
     std::vector<StudentTeacherRow> getStudentsWithTeachersCrossJoin();
+    std::vector<std::string> getTableNames() const;
+    std::vector<std::string> getColumnNames(const std::string& tableName) const;    
 
 private:
     Database& db_;

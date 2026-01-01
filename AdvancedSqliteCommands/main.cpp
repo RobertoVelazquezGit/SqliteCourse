@@ -371,6 +371,29 @@ int main()
 			std::cout << "\nNO STUDENT FOUND WITH rollno\n";
 		}
 
+		// Rename table students to student
+		studentRepo.renameTableToStudent();
+		std::cout << "\nstudents TABLE RENAMED TO student\n";
+		// Get all table names in the database
+		auto tables = schoolRepo.getTableNames();
+		std::cout << "TABLES IN DATABASE:\n";
+		for (const auto& name : tables)
+		{
+			std::cout << "- " << name << "\n";
+		}
+		// Add gender to new named student table	
+		studentRepo.addGenderColumn("student");
+		std::cout << "gender COLUMN ADDED TO NEW NAMED student TABLE\n";
+		// Get all column names in student table
+		auto columns = schoolRepo.getColumnNames("student");
+		std::cout << "COLUMNS IN TABLE 'student':\n";
+		for (const auto& col : columns)
+		{
+			std::cout << "- " << col << "\n";
+		}
+
+
+
 
 
 

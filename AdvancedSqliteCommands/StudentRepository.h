@@ -42,7 +42,11 @@ public:
     void updateNameByRollno(const std::string& newName, int rollno);
     std::optional<std::pair<std::string, int>>
         getNameAndRollnoByRollno(int rollno);
+    void renameTableToStudent();
+    void addGenderColumn(const std::string& tableName);
 
+
+    
 
 
 private:
