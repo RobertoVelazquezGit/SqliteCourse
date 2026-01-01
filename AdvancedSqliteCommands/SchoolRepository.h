@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <string>
+#include <variant>
 #include "Database.h"
 #include "Statement.h"
 
@@ -23,6 +24,8 @@ public:
     std::vector<StudentTeacherRow> getStudentsWithTeachersCrossJoin();
     std::vector<std::string> getTableNames() const;
     std::vector<std::string> getColumnNames(const std::string& tableName) const;    
+    using Cell = std::variant<int, std::string>;
+    std::vector<std::vector<Cell>> selectAllTyped(const std::string& tableName) const;
 
 private:
     Database& db_;

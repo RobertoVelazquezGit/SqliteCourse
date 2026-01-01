@@ -404,6 +404,23 @@ int main()
 		}
 
 
+		// Basic select "SELECT * FROM " + tableName + ";";
+		auto rows_select = schoolRepo.selectAllTyped("student");
+		std::cout << "\nstudent TABLE rows and columns\n";
+		for (const auto& row : rows_select)
+		{
+			for (const SchoolRepository::Cell& cell : row)
+			{
+				std::visit([](const auto& value)
+					{
+						std::cout << value << " ";
+					}, cell);
+			}
+			std::cout << "\n";
+		}
+
+
+
 
 
 	}

@@ -183,3 +183,48 @@ SchoolRepository::getColumnNames(const std::string& tableName) const
     return columns;
 }
 
+std::vector<std::vector<SchoolRepository::Cell>>
+SchoolRepository::selectAllTyped(const std::string& tableName) const
+{
+    const std::string sql =
+        "SELECT * FROM " + tableName + ";";
+
+    Statement stmt(db_.get(), sql);
+
+    std::vector<std::vector<Cell>> rows;
+
+    const int columnCount = sqlite3_column_count(stmt.get());
+
+    while (stmt.step())
+    {
+        std::vector<Cell> row;
+        row.reserve(columnCount);
+
+        for (int i = 0; i < columnCount; ++i)
+        {
+            switch (sqlite3_column_type(stmt.get(), i))
+            {
+            case SQLITE_INTEGER:
+                row.emplace_back(
+                    sqlite3_column_int(stmt.get(), i)
+                );
+                break;
+
+            case SQLITE_TEXT:
+                row.emplace_back(
+                    reinterpret_cast<const char*>(
+                        sqlite3_column_text(stmt.get(), i)
+                        )
+                );
+                break;
+
+            default:
+                row.emplace_back("NULL");
+            }
+        }
+
+        rows.push_back(std::move(row));
+    }
+
+    return rows;
+}

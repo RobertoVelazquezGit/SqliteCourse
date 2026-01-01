@@ -9,6 +9,8 @@ public:
     Statement(sqlite3* db, const std::string& sql);
     ~Statement();
 
+    sqlite3_stmt* get() const { return stmt_; }
+
     // No copiable
     Statement(const Statement&) = delete;
     Statement& operator=(const Statement&) = delete;
