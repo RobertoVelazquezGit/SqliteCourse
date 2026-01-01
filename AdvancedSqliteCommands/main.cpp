@@ -6,6 +6,7 @@
 #include "SchoolRepository.h"
 
 static void printTable(const SchoolRepository& schoolRepo, const std::string& tableName);
+static void demoUpdateWithRollback(Database& db, StudentRepository& studentRepo, SchoolRepository& schoolRepo);
 
 int main()
 {
@@ -405,17 +406,8 @@ int main()
 			std::cout << "- " << col << "\n";
 		}
 
-		// Basic select "SELECT * FROM " + tableName + ";";
-		printTable(schoolRepo, "student");
-
-		// Update student name where rollno and dept
-		studentRepo.updateNameWhereRollnoAndDept("student", "rock", 100, "cse");
-
-		// Basic select "SELECT * FROM " + tableName + ";";
-		printTable(schoolRepo, "student");
-
-
-
+		// Demonstrate UPDATE with SAVEPOINT, ROLLBACK, COMMIT
+		demoUpdateWithRollback(db, studentRepo, schoolRepo);
 	}
 	catch (const std::exception& ex)
 	{
@@ -448,4 +440,48 @@ static void printTable(const SchoolRepository& schoolRepo, const std::string& ta
 		std::cout << "\n";
 	}
 }
+
+// Static helper function to demonstrate UPDATE with SAVEPOINT, ROLLBACK, COMMIT
+static void demoUpdateWithRollback(Database& db, StudentRepository& studentRepo, SchoolRepository& schoolRepo)
+{
+	try
+	{
+		// Print initial student table
+		std::cout << "\nInitial student table:\n";
+		printTable(schoolRepo, "student");
+
+		// Create a savepoint to mark a rollback point
+		// SAVEPOINT allows undoing changes up to this point
+		db.execute("SAVEPOINT sp;");
+
+		// Perform an UPDATE: change the name to "rock" for rollno=100 and dept="cse"
+		studentRepo.updateNameWhereRollnoAndDept("student", "rock", 100, "cse");
+
+		// Print table after the UPDATE
+		std::cout << "\nAfter update:\n";
+		printTable(schoolRepo, "student");
+
+		// Rollback to the savepoint to undo the update
+		// This will revert the change made by the previous UPDATE
+		db.execute("ROLLBACK TO sp;");
+
+		// Print table after rollback to confirm the update was undone
+		std::cout << "\nAfter rollback:\n";
+		printTable(schoolRepo, "student");
+
+		// Commit the transaction to finalize any remaining changes
+		// In this case, there are no changes left since we rolled back
+		db.execute("COMMIT;");
+
+		// Print table after commit
+		std::cout << "\nAfter commit:\n";
+		printTable(schoolRepo, "student");
+	}
+	catch (const std::exception& ex)
+	{
+		// Catch any exceptions from executing SQL statements or updates
+		std::cerr << "ERROR: " << ex.what() << "\n";
+	}
+}
+
 
