@@ -48,16 +48,11 @@ public:
 		const std::string& tableName,
 		const std::string& columnName
 	);
-	void updateNameByRollnoAndDept(
+	void updateNameWhereRollnoAndDept(
 		const std::string& tableName,
 		const std::string& newName,
 		int rollno,
-		const std::string& dept
-	);
-
-
-
-
+		const std::string& dept);
 
 
 private:

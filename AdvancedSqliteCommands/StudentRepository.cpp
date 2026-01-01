@@ -607,7 +607,7 @@ void StudentRepository::updateNameByRollno(const std::string& newName, int rolln
 	*/
 
 	// Execute the UPDATE
-	stmt.step();
+	stmt.execute();  // Throws if error occurs
 }
 
 std::optional<std::pair<std::string, int>>
@@ -682,34 +682,25 @@ void StudentRepository::dropColumn(
 	db_.execute(sql);
 }
 
-
-void StudentRepository::updateNameByRollnoAndDept(
+void StudentRepository::updateNameWhereRollnoAndDept(
 	const std::string& tableName,
 	const std::string& newName,
 	int rollno,
 	const std::string& dept)
 {
-	// Table name must be part of the SQL string (cannot be bound)
-	const std::string sql =
-		"UPDATE " + tableName + " "
-		"SET name = ? "
-		"WHERE rollno = ? AND dept = ?;";
+	// Construct SQL query dynamically with table name
+	std::string sql = "UPDATE " + tableName +
+		" SET name = ? WHERE rollno = ? AND dept = ?;";
 
 	Statement stmt(db_.get(), sql);
 
-	// 1 → SET name = ?
-	stmt.bind(1, newName);
+	// Bind parameters to the placeholders in the SQL
+	stmt.bind(1, newName); // 1 → first '?' → new name
+	stmt.bind(2, rollno);  // 2 → second '?' → rollno
+	stmt.bind(3, dept);    // 3 → third '?' → dept
 
-	// 2 → rollno = ?
-	stmt.bind(2, rollno);
-
-	// 3 → dept = ?
-	stmt.bind(3, dept);
-
-	if (stmt.step() != SQLITE_DONE)
-	{
-		throw std::runtime_error("Update failed");
-	}
+	// Execute the update
+	stmt.execute();  // Throws if error occurs
 }
 
 

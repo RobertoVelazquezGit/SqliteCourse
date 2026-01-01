@@ -408,6 +408,14 @@ int main()
 		// Basic select "SELECT * FROM " + tableName + ";";
 		printTable(schoolRepo, "student");
 
+		// Update student name where rollno and dept
+		studentRepo.updateNameWhereRollnoAndDept("student", "rock", 100, "cse");
+
+		// Basic select "SELECT * FROM " + tableName + ";";
+		printTable(schoolRepo, "student");
+
+
+
 	}
 	catch (const std::exception& ex)
 	{
