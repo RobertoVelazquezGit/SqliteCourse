@@ -5,6 +5,8 @@
 #include "TeacherRepository.h"
 #include "SchoolRepository.h"
 
+static void printTable(const SchoolRepository& schoolRepo, const std::string& tableName);
+
 int main()
 {
 	try
@@ -403,25 +405,8 @@ int main()
 			std::cout << "- " << col << "\n";
 		}
 
-
 		// Basic select "SELECT * FROM " + tableName + ";";
-		auto rows_select = schoolRepo.selectAllTyped("student");
-		std::cout << "\nstudent TABLE rows and columns\n";
-		for (const auto& row : rows_select)
-		{
-			for (const SchoolRepository::Cell& cell : row)
-			{
-				std::visit([](const auto& value)
-					{
-						std::cout << value << " ";
-					}, cell);
-			}
-			std::cout << "\n";
-		}
-
-
-
-
+		printTable(schoolRepo, "student");
 
 	}
 	catch (const std::exception& ex)
@@ -432,3 +417,27 @@ int main()
 
 	return 0;
 }
+
+
+// Function to print all rows of a table from a SchoolRepository
+static void printTable(const SchoolRepository& schoolRepo, const std::string& tableName)
+{
+	// Get all rows (typed variant) from the table
+	auto rows = schoolRepo.selectAllTyped(tableName);
+
+	std::cout << "\n" << tableName << " TABLE rows and columns\n";
+
+	for (const auto& row : rows)
+	{
+		for (const SchoolRepository::Cell& cell : row)
+		{
+			// std::visit to handle the variant type (int or string)
+			std::visit([](const auto& value)
+				{
+					std::cout << value << " ";
+				}, cell);
+		}
+		std::cout << "\n";
+	}
+}
+

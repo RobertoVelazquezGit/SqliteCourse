@@ -1,4 +1,5 @@
-﻿#include "SchoolRepository.h"
+﻿#include <iostream>
+#include "SchoolRepository.h"
 
 SchoolRepository::SchoolRepository(Database& db)
     : db_(db)
