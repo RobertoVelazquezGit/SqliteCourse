@@ -27,6 +27,7 @@ public:
     // Bind
     void bind(int index, int value);
     void bind(int index, const std::string& value);
+    void bind(int index, double value);
 
     // Column
     template<typename T>

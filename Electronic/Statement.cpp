@@ -87,6 +87,14 @@ void Statement::bind(int index, const std::string& value)
     }
 }
 
+void Statement::bind(int index, double value)
+{
+    if (sqlite3_bind_double(stmt_, index, value) != SQLITE_OK)
+    {
+        throw std::runtime_error("Bind double failed");
+    }
+}
+
 // Column name
 const char* Statement::columnName(int index) const
 {
