@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include "Database.h"
+#include "ProductsRepo.h"
 
 int main()
 {
@@ -58,6 +59,15 @@ int main()
         )sql");
 
         std::cout << "\nDatabase and tables created successfully.\n";
+
+        // Create products repository
+        ProductsRepo productsRepo(db);
+
+        // Insert products
+        productsRepo.insert("Product A", "PCB Product A");
+        productsRepo.insert("Product B", "PCB Product B");
+
+        std::cout << "\nProducts inserted successfully.\n";
     }
     catch (const std::exception& ex)
     {

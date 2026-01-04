@@ -127,6 +127,7 @@
   <ItemGroup>
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ProductsRepo.cpp" />
     <ClCompile Include="Statement.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Database.h" />
+    <ClInclude Include="ProductsRepo.h" />
     <ClInclude Include="Statement.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
