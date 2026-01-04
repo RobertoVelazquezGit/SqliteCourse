@@ -27,6 +27,9 @@
     <ClCompile Include="ProductsRepo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ArticlesRepo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Database.h">
@@ -38,5 +41,13 @@
     <ClInclude Include="ProductsRepo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ArticlesRepo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="electronic.sql">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

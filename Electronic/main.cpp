@@ -2,6 +2,7 @@
 #include <iostream>
 #include "Database.h"
 #include "ProductsRepo.h"
+#include "ArticlesRepo.h"
 
 int main()
 {
@@ -68,6 +69,18 @@ int main()
         productsRepo.insert("Product B", "PCB Product B");
 
         std::cout << "\nProducts inserted successfully.\n";
+
+        // Create repository
+        ArticlesRepo articlesRepo(db);
+
+        // Insert articles
+        articlesRepo.insert("Resistor 10k 1%", "R10K-0603", "Yageo", 0.02);
+        articlesRepo.insert("Resistor 1k 1%", "R1K-0603", "Yageo", 0.02);
+        articlesRepo.insert("Capacitor 100nF", "C100NF-0603", "Kemet", 0.03);
+        articlesRepo.insert("NPN Transistor", "BC817", "Nexperia", 0.10);
+        articlesRepo.insert("Microcontroller", "ATMEGA328P", "Microchip", 2.50);
+
+        std::cout << "\nArticles inserted successfully.\n";
     }
     catch (const std::exception& ex)
     {
