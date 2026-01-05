@@ -3,6 +3,7 @@
 #include "Database.h"
 #include "ProductsRepo.h"
 #include "ArticlesRepo.h"
+#include "ProductArticlesRepo.h"
 
 int main()
 {
@@ -81,6 +82,23 @@ int main()
         articlesRepo.insert("Microcontroller", "ATMEGA328P", "Microchip", 2.50);
 
         std::cout << "\nArticles inserted successfully.\n";
+
+        // --- Assume tables already created ---
+        ProductArticlesRepo paRepo(db);
+
+        // --- Insert articles into Product A ---
+        paRepo.insert(1, 1, "R10", 2);  // Resistor 10k (quantity 2)
+        paRepo.insert(1, 2, "R5", 1);  // Resistor 1k
+        paRepo.insert(1, 3, "C1", 1);  // Capacitor
+        paRepo.insert(1, 4, "Q1", 1);  // Transistor
+
+        // --- Insert articles into Product B ---
+        paRepo.insert(2, 1, "R3", 1);  // Resistor 10k (repeated from Product A)
+        paRepo.insert(2, 3, "C2", 3);  // Capacitor (quantity 3)
+        paRepo.insert(2, 4, "Q2", 1);  // Transistor
+        paRepo.insert(2, 5, "U1", 1);  // Microcontroller
+
+        std::cout << "\nProduct articles inserted successfully.\n";
     }
     catch (const std::exception& ex)
     {

@@ -128,6 +128,7 @@
     <ClCompile Include="ArticlesRepo.cpp" />
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ProductArticlesRepo.cpp" />
     <ClCompile Include="ProductsRepo.cpp" />
     <ClCompile Include="Statement.cpp" />
   </ItemGroup>
@@ -139,6 +140,7 @@
   <ItemGroup>
     <ClInclude Include="ArticlesRepo.h" />
     <ClInclude Include="Database.h" />
+    <ClInclude Include="ProductArticlesRepo.h" />
     <ClInclude Include="ProductsRepo.h" />
     <ClInclude Include="Statement.h" />
   </ItemGroup>
