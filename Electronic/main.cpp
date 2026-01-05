@@ -120,6 +120,15 @@ int main()
         // Print price breakdowns
         printProductPriceBreakdown(paRepo, "Product A");
         printProductPriceBreakdown(paRepo, "Product B");
+
+        // Delete "Product B"
+        productsRepo.removeByName("Product B");
+        std::cout << "\nProduct B removed\n";
+        // Print BOM for Product B
+        printProductBOM(paRepo, "Product B");
+        // Print BOM for Product A
+        printProductBOM(paRepo, "Product A");
+
     }
     catch (const std::exception& ex)
     {
