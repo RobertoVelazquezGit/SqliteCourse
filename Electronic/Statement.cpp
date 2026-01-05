@@ -100,3 +100,18 @@ const char* Statement::columnName(int index) const
 {
     return sqlite3_column_name(stmt_, index);
 }
+
+#ifdef APP_DEBUG
+#include <iostream>
+
+void Statement::debugPrintColumns(int columnCount) const
+{
+    for (int i = 0; i < columnCount; ++i)
+    {
+        std::cout
+            << "Column " << i
+            << " name: " << sqlite3_column_name(stmt_, i)
+            << "\n";
+    }
+}
+#endif

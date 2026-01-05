@@ -139,6 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArticlesRepo.h" />
+    <ClInclude Include="Config.h" />
     <ClInclude Include="Database.h" />
     <ClInclude Include="ProductArticlesRepo.h" />
     <ClInclude Include="ProductsRepo.h" />

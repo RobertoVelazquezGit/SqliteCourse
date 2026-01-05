@@ -5,6 +5,13 @@
 #include "ArticlesRepo.h"
 #include "ProductArticlesRepo.h"
 
+static void printProductBOM(ProductArticlesRepo& paRepo,
+    const std::string& productName);
+static void printProductTotalPrice(ProductArticlesRepo& paRepo,
+    const std::string& productName);
+static void printProductPriceBreakdown(ProductArticlesRepo& paRepo,
+    const std::string& productName);
+
 int main()
 {
     try
@@ -99,6 +106,20 @@ int main()
         paRepo.insert(2, 5, "U1", 1);  // Microcontroller
 
         std::cout << "\nProduct articles inserted successfully.\n";
+
+        // Print BOM for Product A
+        printProductBOM(paRepo, "Product A");
+
+        // Print BOM for Product B
+        printProductBOM(paRepo, "Product B");
+
+        // Print total prices
+        printProductTotalPrice(paRepo, "Product A");
+        printProductTotalPrice(paRepo, "Product B");
+
+        // Print price breakdowns
+        printProductPriceBreakdown(paRepo, "Product A");
+        printProductPriceBreakdown(paRepo, "Product B");
     }
     catch (const std::exception& ex)
     {
@@ -107,4 +128,67 @@ int main()
     }
 
     return 0;
+}
+
+// ------------------------------------------------------------
+// Print the Bill Of Materials (BOM) for a given product
+// ------------------------------------------------------------
+static void printProductBOM(ProductArticlesRepo& paRepo,
+    const std::string& productName)
+{
+    // Retrieve all articles for the given product name
+    auto items = paRepo.getByProductName(productName);
+
+    // Print BOM header
+    std::cout << "\nBOM for product: " << productName << "\n";
+    std::cout << "----------------------------------------\n";
+
+    // Iterate through all BOM items and print them
+    for (const auto& item : items)
+    {
+        std::cout
+            << item.product_name << " | "
+            << item.designator << " | "
+            << item.description << " | "
+            << item.quantity << "\n";
+    }
+
+    std::cout << std::endl;
+}
+
+// ------------------------------------------------------------
+// Print the total price of a product
+// ------------------------------------------------------------
+static void printProductTotalPrice(ProductArticlesRepo& paRepo,
+    const std::string& productName)
+{
+    // Get total price from the repository
+    double totalPrice = paRepo.getTotalPriceByProductName(productName);
+
+    // Print result
+    std::cout
+        << "\nTotal price for product \"" << productName << "\": "
+        << totalPrice << " EUR\n\n";
+}
+
+// ------------------------------------------------------------
+// Print price breakdown per article for a product
+// ------------------------------------------------------------
+static void printProductPriceBreakdown(ProductArticlesRepo& paRepo,
+    const std::string& productName)
+{
+    auto items = paRepo.getPriceBreakdownByProductName(productName);
+
+    std::cout << "\nPrice breakdown for product \"" << productName << "\":\n";
+
+    for (const auto& item : items)
+    {
+        std::cout
+            << item.article_name << " | "
+            << "Qty: " << item.quantity << " | "
+            << "Unit: " << item.unit_price << " EUR | "
+            << "Total: " << item.total_price << " EUR\n";
+    }
+
+    std::cout << "\n";
 }

@@ -2,6 +2,7 @@
 
 #include <sqlite3.h>
 #include <string>
+#include "Config.h"
 
 class Statement
 {
@@ -34,6 +35,11 @@ public:
     T column(int index) const;
 	// Column name
     const char* columnName(int index) const;
+
+#ifdef APP_DEBUG
+    // Debug helper: prints column names of the prepared statement
+    void debugPrintColumns(int columnCount) const;
+#endif
 
 private:
     sqlite3_stmt* stmt_{ nullptr };
