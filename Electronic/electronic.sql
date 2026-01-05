@@ -90,7 +90,7 @@ JOIN Articles a ON pa.article_id = a.id
 WHERE p.id = 1                               -- Product A
 GROUP BY p.id;                               -- Group by product to sum all components
 
--- Price product a
+-- Price product b
 SELECT
     p.name,                                  -- Product name
     SUM(pa.quantity * a.price_unit) AS total_price  -- Total cost of the product
@@ -123,5 +123,18 @@ JOIN Products p ON pa.product_id = p.id
 JOIN Articles a ON pa.article_id = a.id
 WHERE p.id = 2                                -- Product B
 ORDER BY a.description;                       -- Order by article name
+
+-- Delete a product by its name
+DELETE FROM Products
+WHERE name = 'Product B';  
+-- Check executing Articles in product b
+
+-- Insert Product B again into products
+INSERT INTO Products (name, description)
+VALUES ('Product B', 'PCB Product B');
+-- Execute "Insert articles into product B"
+-- Check executing "Articles in product b"
+
+
 
 
